@@ -1,0 +1,21 @@
+#环境要求
+python 3.5，组件：numpy，scipy，pandas，sparsesvd
+#注意
+numpy需要下载相应的.whl安装
+scipy，pandas均可以使用pip在线安装
+sparsesvd使用pip安装时，可能会出现缺少C++编译器错误，安装visual studio 2015即可
+
+#预处理部分（可以省略）
+1、将训练样本Training_Data.rar中的文件解压到Training_Data目录中
+   数据集下载链接：https://pan.baidu.com/s/1k3hztuwCr61xJU5Y1sC9ZQ
+2、在当前目录新建文件夹Clean_Data，运行python dataClean.py，这里会去掉原始语料中的头信息，并进行数据清洗
+3、运行python BuildVocabsfile.py生成总词汇表vocab_full.txt
+4、运行python DataCSVBuilder.py生成词项-文档矩阵，对应文件vocab_vector.csv，处理结束会打印出原始矩阵的秩
+
+#算法执行部分
+1、python SVT.py --mode SVT，对进行缺失处理后的矩阵，使用SVT算法处理。
+   运行结束后会打印出原矩阵、修复矩阵、均方根误差
+2、python SVT.py --mode SVTp  --rank 10 ，对进行缺失处理后的矩阵，使用改进后的SVT进行处理，其中rank参数对应低秩映射矩阵的秩
+   运行结束后会打印出原矩阵、修复矩阵、均方根误差
+3、python SVT.py --mode SVT --missing false，不对原矩阵进行缺失处理，直接使用SVT算法
+   运行结束后会打印出原矩阵、修复矩阵、均方根误差
